@@ -165,4 +165,88 @@ function exArrayIterator(params) {
   }
   console.log(iterator.next());
 }
-exArrayIterator();
+//exArrayIterator();
+
+function exArrayIterationKeyValue() {
+  const array = [true, 1, 2, 3, "4", undefined];
+  for (const key in array) {
+    console.log(key);
+  }
+  console.log("---------------------");
+  for (const value of array) {
+    console.log(value);
+  }
+}
+//exArrayIterationKeyValue();
+
+function exMuddle(params) {
+  const array = [6, 7, 8];
+  array.push({ value: "Jack" });
+  array.value = "Jane";
+  console.log(array);
+  for (const value of array) {
+    console.log(value);
+  }
+  for (const key in array) {
+    console.log(key);
+  }
+}
+//exMuddle();
+
+function exArrayForInOf() {
+  Array.prototype.foo = 1;
+  const a = [2, 3, 4];
+  for (const index in a) {
+    console.log(index);
+  }
+  for (const value of a) {
+    console.log(value);
+  }
+}
+
+//exArrayForInOf();
+
+function exArrayUsefull() {
+  const a = new Array(5);
+  a[4] = true;
+  console.log("-------forEach------------");
+  a.forEach((element) => {
+    console.log(element);
+  });
+  console.log("----------for of----------");
+  for (const value of a) {
+    console.log(value);
+  }
+  console.log("----------for in----------");
+  for (const value in a) {
+    console.log(value);
+  }
+}
+
+//exArrayUsefull();
+
+function exArrayMap(params) {
+  const a = ["1", "2", "3", "string", true, undefined];
+  console.log(a);
+  const array = a.map((item) => {
+    if (item !== "number") {
+      return item + "_ok";
+    }
+  });
+  console.log(array);
+}
+//exArrayMap();
+
+function name() {
+  Array.prototype.last = function () {
+    return this[this.length - 1];
+  };
+  const a = [11, 1, 22, 33, 44];
+  for (const key in a) {
+    if (key === "last") {
+      console.log(a.last());
+    }
+  }
+}
+
+name();
