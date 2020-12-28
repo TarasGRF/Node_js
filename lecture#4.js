@@ -19,7 +19,7 @@ function exVisibility(params) {
 }
 //exVisibility();
 
-//------spread/rest---------
+//------spread/rest----------------------
 
 function exArrayCopy() {
   const arr = [1, 2, 3, 4, 5, 6];
@@ -29,6 +29,13 @@ function exArrayCopy() {
   console.log(arr === arrCopy);
 }
 //exArrayCopy();
+
+function exObjectCopy(params) {
+  let abc = { name: "Lane", obj: { name: "Jack" } };
+  let acb_copy = { ...abc };
+  console.log(acb_copy);
+}
+//exObjectCopy();
 
 //Удаление свойства
 function exRemoveProp(params) {
@@ -69,6 +76,7 @@ function exManipulation() {
     id: 100,
     name: "Howard Moon",
     password: "Password!",
+    //position: "prog",
   };
   const organize = (object) => ({ ...object, password: undefined });
   console.log(organize(user));
@@ -87,16 +95,16 @@ function exManipulation() {
   console.log(renamed(user));
 
   //Добавление условных свойств
-  const position = "";
+  const position = "painter";
   const userWithPosition = {
     ...user,
-    ...(position || { position }),
+    ...(!user.position && { position }),
   };
   console.log(userWithPosition);
 }
 //exManipulation();
 
-//Scopes
+//---------------Scopes-------------------
 
 function exScopes() {
   fun();
@@ -111,7 +119,7 @@ function exScopes() {
 }
 //exScopes();
 
-//closure
+//-------------------closure--------------------
 function exClosure() {
   let v = 1;
   const f1 = function () {
@@ -125,7 +133,7 @@ function exClosure() {
 }
 //exClosure();
 
-//Call vs apply vs bind
+//------------------Call vs apply vs bind--------------------
 function exCallApplyBind() {
   const obj = { name: "Jane", position: "programmer" };
 
@@ -145,7 +153,17 @@ function exCallApplyBind() {
 }
 //exCallApplyBind();
 
-//Arrow
+function exCallThis() {
+  const array = ["Hello", "my", "sweety"];
+  function greetings(...arg) {
+    console.log(this);
+    console.log(...arg);
+  }
+  greetings.call(array, "Hi");
+}
+//exCallThis();
+
+//-----------Arrow-------------------
 function exArrow() {
   const smartPhones = [
     { name: "iphone", price: 649 },
@@ -176,7 +194,7 @@ function exArrow1() {
 }
 //exArrow1();
 
-//Use strict
+//--------------Use strict----------------
 function exUseStrict() {
   function isStrictModeOff() {
     return !this;
@@ -193,4 +211,4 @@ function exUseStrict() {
   console.log(isStrictModeOff());
   console.log(isStrictModeOn());
 }
-exUseStrict();
+//exUseStrict();
