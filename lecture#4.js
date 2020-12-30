@@ -212,3 +212,176 @@ function exUseStrict() {
   console.log(isStrictModeOn());
 }
 //exUseStrict();
+
+//-----------this--------------------
+
+function exThisGlobal() {
+  console.log(this);
+}
+//exThisGlobal();
+
+function exThisFunction() {
+  function fun() {
+    console.log(this);
+  }
+  fun();
+}
+//exThisFunction();
+
+function exThisObject() {
+  obj = {};
+  function fun() {
+    console.log(this);
+  }
+  fun();
+}
+//exThisObject();
+
+function exThisObjectCall() {
+  obj = { name: "Lane" };
+  function fun() {
+    console.log(this);
+  }
+  fun.call(obj);
+}
+//exThisObjectCall();
+
+function exThisObjectMethod() {
+  obj = {
+    name: "Lane",
+    fun: function f() {
+      console.log(this);
+    },
+  };
+  obj.fun();
+}
+//exThisObjectMethod();
+
+function exThisObjectMethod1() {
+  obj = {
+    name: "Lane",
+    fun: function f() {
+      console.log(this);
+    },
+  };
+  obj1 = { name: "Jane" };
+  obj.fun.call(obj1);
+}
+//exThisObjectMethod1();
+
+function exThisObjectMethodArrow() {
+  obj = {
+    name: "Lane",
+    fun: () => console.log(this),
+  };
+  obj1 = { name: "Jane" };
+  obj.fun();
+  obj.fun.call(obj1);
+}
+//exThisObjectMethodArrow();
+
+//--------------arrow vs bind---------------
+// ES5
+function exBindThis(params) {
+  var obj = {
+    id: 42,
+    counter: function counter() {
+      setTimeout(
+        function () {
+          console.log(this.id);
+        }.bind(this),
+        1000
+      );
+    },
+  };
+  obj.counter();
+}
+//exBindThis();
+
+// ES6
+function exArrowVsBind(params) {
+  var obj = {
+    id: 42,
+    counter: function counter() {
+      setTimeout(() => {
+        console.log(this.id);
+      }, 1000);
+    },
+  };
+  obj.counter();
+}
+//exArrowVsBind();
+
+//---------When you should not use Arrow Functions
+//------object method
+function exArrowNoBoundThis(params) {
+  var cat = {
+    lives: 9,
+    jumps: () => {
+      this.lives--;
+    },
+  };
+  cat.jumps();
+  cat.jumps();
+  console.log(cat.lives);
+}
+//exArrowNoBoundThis();
+
+//--------------bind vs filter----------------
+
+function exBindVsFilter() {
+  const as = new Set([1, 2, 3]);
+  const bs = new Set([3, 2, 4]);
+  const intersection = [...as].filter(bs.has, bs);
+  console.log(intersection);
+}
+//exBindVsFilter();
+
+function exBindVsFilter1() {
+  const as = new Set([1, 2, 3]);
+  const bs = new Set([3, 2, 4]);
+  const intersection = [...as].filter((a) => bs.has(a));
+  console.log(intersection);
+}
+//exBindVsFilter1();
+
+function exBindVsArrowInCurring() {
+  function add(x, y) {
+    return x + y;
+  }
+  const plus10 = add.bind(undefined, 10);
+  console.log(plus10(10));
+}
+//exBindVsArrowInCurring();
+
+function exBindVsArrowInCurring1() {
+  function add(x, y) {
+    return x + y;
+  }
+  const plus10 = (x) => add(x, 10);
+  console.log(plus10(10));
+}
+//exBindVsArrowInCurring1();
+
+//-------decorator--------------
+
+function readonly(target, property, descriptor) {
+  descriptor.writable = false;
+  return descriptor;
+}
+
+// class User {
+//   constructor(firstname, lastName) {
+//     this.firstname = firstname;
+//     this.lastName = lastName;
+//   }
+
+//   @readonly
+//   getFullName() {
+//     return `${this.firstname} ${this.lastName}`;
+//   }
+// }
+
+// User.prototype.getFullName = function () {
+//   return "ВЗЛОМАНО!";
+// };
