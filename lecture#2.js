@@ -112,16 +112,51 @@ function exArraySome1() {
 }
 //exArraySome1();
 
-console.log(
-  JSON.stringify([
-    undefined,
-    null,
-    ,
-    function (x) {
-      return x;
-    },
-  ])
-);
+function exReduceAsMap() {
+  const euros = [29.76, 41.85, 46.5];
+  const doubled = euros.reduce((total, amount) => {
+    total.push(amount * 2);
+    return total;
+  }, []);
+  console.log(doubled);
+}
+//exReduceAsMap();
+
+function exReduceInObject() {
+  const fruitBasket = [
+    "banana",
+    "cherry",
+    "orange",
+    "apple",
+    "cherry",
+    "orange",
+    "apple",
+    "banana",
+    "cherry",
+    "orange",
+    "fig",
+  ];
+  const count = fruitBasket.reduce((tally, fruit) => {
+    tally[fruit] = (tally[fruit] || 0) + 1;
+    return tally;
+  }, {});
+  console.log(count);
+}
+// exReduceInObject();
+
+function exJson() {
+  console.log(
+    JSON.stringify([
+      undefined,
+      null,
+      ,
+      function (x) {
+        return x;
+      },
+    ])
+  );
+}
+//exJson();
 
 function exArrayKeys() {
   const array = [true, 1, 2, 3, "4", undefined];
@@ -179,7 +214,7 @@ function exArrayIterationKeyValue() {
 }
 //exArrayIterationKeyValue();
 
-function exMuddle(params) {
+function exMuddle() {
   const array = [6, 7, 8];
   array.push({ value: "Jack" });
   array.value = "Jane";
@@ -237,7 +272,7 @@ function exArrayMap(params) {
 }
 //exArrayMap();
 
-function name() {
+function exArrayIn() {
   Array.prototype.last = function () {
     return this[this.length - 1];
   };
@@ -248,5 +283,94 @@ function name() {
     }
   }
 }
+//exArrayIn();
 
-name();
+function exWrapper() {
+  function SuperOuterAdd(a, b) {
+    console.log("Wrapper 2");
+    return OuterAdd(a, b);
+  }
+
+  function OuterAdd(a, b) {
+    console.log("Wrapper 1");
+    return add(a, b);
+  }
+
+  function add(a, b) {
+    return parseInt(a) + parseInt(b);
+  }
+  console.log(SuperOuterAdd(10, 11));
+}
+//exWrapper();
+
+function exWrapper1() {
+  function power(x, y) {
+    let res = 1;
+    while (y--) {
+      res *= x;
+    }
+    return res;
+  }
+  function square(x) {
+    return power(x, 2);
+  }
+  console.log(square(10));
+}
+//exWrapper1();
+
+function initialFunc(someNumber) {
+  console.log(`initialFunc`, someNumber);
+}
+
+function foo() {
+  // Замыкание
+  const someRatio = 3.14; // Причина создания замыкания
+
+  return function (someNumber) {
+    // Обёртка, которая возвращается из замыкания
+    console.log(`wrapper`, someNumber); // Причина создания обёртки
+    initialFunc(someNumber * someRatio); // Вызов обёрнутой функции
+  };
+}
+
+//foo()(42);
+
+//-----------------пример замыкания--------------------
+function exClosureExample() {
+  function makeWorker() {
+    let name = "Pete";
+    return function () {
+      console.log(name);
+    };
+  }
+  let name = "John";
+  // create a function
+  let work = makeWorker();
+  // call it
+  work(); // что будет показано? "Pete" (из места создания) или "John" (из места выполнения)
+}
+//exClosureExample();
+
+function exClosureExample1() {
+  let scope = "global scope"; // Глобальная переменная
+
+  function checkscope() {
+    let scope = "local scope"; // Локальная переменная
+    function f() {
+      console.log(scope);
+    } // Вернет значение локальной переменной scope
+    return f();
+  }
+
+  function checkscope1() {
+    let scope = "local scope"; // Локальная переменная
+    function f() {
+      console.log(scope);
+    } // Вернет значение локальной переменной scope
+    return f;
+  }
+
+  checkscope(); // => "local scope"
+  checkscope1()(); // => "local scope"
+}
+//exClosureExample1();
