@@ -374,3 +374,60 @@ function exClosureExample1() {
   checkscope1()(); // => "local scope"
 }
 //exClosureExample1();
+
+//------------------Func declaration vs Func expression-------
+function exFuncDeclVsExpr() {
+  function foo() {
+    function bar() {
+      return 3;
+    }
+    return bar();
+    function bar() {
+      return 8;
+    }
+  }
+  console.log(foo());
+}
+//exFuncDeclVsExpr();
+
+function exFuncDeclVsExpr1() {
+  function foo() {
+    let bar = function () {
+      return 3;
+    };
+    return bar();
+    bar = function () {
+      return 8;
+    };
+  }
+  console.log(foo());
+}
+//exFuncDeclVsExpr1();
+
+function exFuncDeclVsExpr2() {
+  console.log(foo());
+  function foo() {
+    let bar = function () {
+      return 3;
+    };
+    return bar();
+    bar = function () {
+      return 8;
+    };
+  }
+}
+//exFuncDeclVsExpr2();
+
+function exFuncDeclVsExpr3(params) {
+  function foo() {
+    return bar();
+    let bar = function () {
+      return 3;
+    };
+    bar = function () {
+      return 8;
+    };
+  }
+  console.log(foo());
+}
+//exFuncDeclVsExpr3();
