@@ -265,3 +265,118 @@ function exCallAndSpread() {
   theFunction.call(undefined, ...["Matthew", "physicist"]); // used with the spread operator
 }
 //exCallAndSpread();
+
+//-------------this--------------------
+
+function exThisInFunction() {
+  function myFunction() {
+    return this;
+  }
+  console.log(myFunction());
+}
+//exThisInFunction();
+
+function exThisInFunctionStrict() {
+  "use strict";
+  function myFunction() {
+    return this;
+  }
+  console.log(myFunction());
+}
+//exThisInFunctionStrict();
+
+function exThisInObjectMethod(params) {
+  var person = {
+    firstName: "John",
+    lastName: "Doe",
+    id: 5566,
+    myFunction: function () {
+      return this;
+    },
+  };
+  console.log(person.myFunction());
+}
+//exThisInObjectMethod();
+
+function exLostThis() {
+  const obj = {
+    parent: parent,
+  };
+  function parent() {
+    console.log(this);
+
+    function child() {
+      console.log(this);
+    }
+    child();
+  }
+  obj.parent();
+}
+//exLostThis();
+
+//--------------constructor--------------
+
+function exConstructorSimple() {
+  function Foo(name) {
+    this.name = name;
+  }
+
+  var foo = new Foo("foo");
+  console.log(foo);
+}
+//exConstructorSimple();
+
+function exNoConstructor() {
+  const plumber = function (name, sales) {
+    return {
+      name: name,
+      sales: sales,
+      sell: function (thing) {
+        this.sales += 1;
+        return "Plumber " + this.name + " restored " + thing;
+      },
+    };
+  };
+  const lord = new plumber("Lord", 20);
+  console.log(lord.sell("pump"));
+}
+//exNoConstructor();
+
+function exConstructor() {
+  function Fitter(name, sales) {
+    this.name = name;
+    this.sales = sales;
+    this.sell = function (thing) {
+      this.sales += 1;
+      return "Fitter " + this.name + " repaired " + thing;
+    };
+  }
+  const Petrovich = new Fitter("Vasiliy", 10);
+  console.log(Petrovich);
+}
+//exConstructor();
+
+function exSymbol(params) {
+  let id = Symbol("id");
+  let person = {
+    name: "Jack",
+    age: 25,
+    [id]: 12,
+  };
+  // using for...in
+  for (let key in person) {
+    console.log(key);
+  }
+}
+//exSymbol();
+
+function exSymbolMethods(paams) {
+  // get symbol by name
+  let sym = Symbol.for("hello");
+  let sym1 = Symbol.for("id");
+
+  // get name by symbol
+  console.log(Symbol.keyFor(sym)); // hello
+  console.log(Symbol.keyFor(sym1)); // id
+}
+//exSymbolMethods();
