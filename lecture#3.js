@@ -380,3 +380,61 @@ function exSymbolMethods(paams) {
   console.log(Symbol.keyFor(sym1)); // id
 }
 //exSymbolMethods();
+
+//------------let vs var-----------------
+function exVar() {
+  for (var i = 0; i < 5; i++) {
+    console.log(`Inside the loop: ${i}`);
+  }
+  console.log(`Outside the loop: ${i}`);
+}
+//exVar();
+function exLet() {
+  for (let i = 0; i < 5; i++) {
+    console.log(`Inside the loop: ${i}`);
+  }
+  console.log(`Outside the loop: ${i}`);
+}
+//exLet();
+
+//?????????????????????
+// counter = 0;
+// console.log(global.counter);
+
+// let counter1 = 1;
+// console.log(global.counter1);
+
+// var counter2 = 2;
+// console.log(global.counter2);
+
+function exSetTimeoutLostThis() {
+  function User(id) {
+    this.id = id;
+
+    this.sayHi = function () {
+      console.log(this.id);
+    };
+  }
+
+  var user = new User(12345);
+
+  setTimeout(user.sayHi, 1000);
+}
+//exSetTimeoutLostThis();
+
+function exSetTimeoutWithThis(params) {
+  function User(id) {
+    this.id = id;
+
+    this.sayHi = function () {
+      console.log(this.id);
+    };
+  }
+
+  var user = new User(12345);
+
+  setTimeout(function () {
+    user.sayHi();
+  }, 1000);
+}
+//exSetTimeoutWithThis();
