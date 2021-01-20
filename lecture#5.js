@@ -208,3 +208,55 @@ function exLodashMap() {
   console.log(_.map(books, "name"));
 }
 //exLodashMap();
+
+function exLodashMixin() {
+  // Lodash
+  _.mixin({
+    capitalize: function (string) {
+      return string.charAt(0).toUpperCase() + string.substring(1).toLowerCase();
+    },
+  });
+
+  console.log(_.capitalize("jOHn"));
+}
+//exLodashMixin();
+
+function exLodashMemoize() {
+  const memoizedAdd = () => {
+    let cache = {};
+    return (n) => {
+      if (n in cache) {
+        console.log("Fetching from cache");
+        return cache[n];
+      } else {
+        console.log("Calculating result");
+        let result = n + 10;
+        cache[n] = result;
+        return result;
+      }
+    };
+  };
+
+  console.log(memoizedAdd()(5));
+  console.log(memoizedAdd()(5));
+  // эту функцию возвратит memoizedAdd
+  const newAdd = memoizedAdd();
+  console.log(newAdd(9)); // вычислено
+  console.log(newAdd(9)); // взято из кэша
+
+  const add = (n) => n + 10;
+  const addMem = _.memoize(add);
+  console.log(addMem(30));
+}
+//exLodashMemoize();
+const moment = require("moment");
+function exMoment() {
+  const from = moment();
+  const to = moment(from).add(1, "year").subtract(6, "months");
+  const format = "YYYY-MM-DD [at] HH:mm";
+  const fromStr = from.format(format);
+  const toStr = to.format(format);
+  const str = `From ${fromStr} to ${toStr}`;
+  console.log(str);
+}
+exMoment();
