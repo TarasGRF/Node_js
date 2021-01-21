@@ -110,8 +110,22 @@ function exPlusCoersion() {
 }
 //exPlusCoersion();
 
-function exExplicitCoersion(params) {
-  console.log(!!3, !!"a", !!"", !!null, !!undefined, !!{}, !![]);
+function exExplicitCoersion() {
+  console.log(!!0, !!3, !!"a", !!"", !!null, !!undefined, !!{}, !![]);
   console.log(~1, ~100, ~Infinity, ~-1);
 }
-//ExplicitCoersion();
+//exExplicitCoersion();
+
+function exImplicitCoersion() {
+  let increment = [];
+  increment++;
+  let sum = [] + 3;
+  let compare1 = [] > 3;
+  let compare2 = 3 > [];
+
+  console.log("increment", increment);
+  console.log("sum", sum);
+  console.log("compare1", compare1);
+  console.log("compare2", compare2);
+}
+//exImplicitCoersion();
