@@ -1,3 +1,5 @@
+const { groupBy } = require("lodash");
+
 function exIncrement() {
   const array = [1, 2, 3, 4, 5, 6];
   let i = 0;
@@ -142,7 +144,189 @@ function exReduceInObject() {
   }, {});
   console.log(count);
 }
-// exReduceInObject();
+//exReduceInObject();
+
+function exReduceNumbers() {
+  let total = [1, 2, 3].reduce(function (sum, current) {
+    return sum + current;
+  }, 0);
+  //Здесь мы передаем 0 как наше начальное значение.
+  console.log(total);
+}
+//exReduceNumbers();
+
+function exReduceLikeFilterMap() {
+  const wizards = [
+    {
+      name: "Harry Potter",
+      house: "Gryfindor",
+    },
+    {
+      name: "Cedric Diggory",
+      house: "Hufflepuff",
+    },
+    {
+      name: "Tonks",
+      house: "Hufflepuff",
+    },
+    {
+      name: "Ronald Weasley",
+      house: "Gryfindor",
+    },
+    {
+      name: "Hermione Granger",
+      house: "Gryfindor",
+    },
+  ];
+  //--------------filter&map-----------
+  let hufflepuff = wizards
+    .filter(function (wizard) {
+      return wizard.house === "Hufflepuff";
+    })
+    .map(function (wizard) {
+      return wizard.name;
+    });
+  console.log(hufflepuff);
+  //-----------------reduce-----------
+  hufflepuff = wizards.reduce(function (newArr, wizard) {
+    if (wizard.house === "Hufflepuff") {
+      newArr.push(wizard.name);
+    }
+    return newArr;
+  }, []);
+  console.log(hufflepuff);
+}
+//exReduceLikeFilterMap();
+
+function exReduceGroupBy(params) {
+  let numbers = [6.1, 4.2, 6.3, 5.7, 6.34, 4.6];
+  console.log(groupBy(numbers, Math.floor));
+
+  function groupBy(arr, criteria) {
+    return arr.reduce(function (obj, item) {
+      // Проверка на то, является ли критерий функцией элемента или же //свойством элемента
+      let key =
+        typeof criteria === "function" ? criteria(item) : item[criteria];
+
+      // Если свойство не создано, создаем его.
+      if (!obj.hasOwnProperty(key)) {
+        obj[key] = [];
+      }
+
+      // Добавление значения в объект
+      obj[key].push(item);
+      // Возвращение объекта для следующего шага
+      return obj;
+    }, {});
+  }
+}
+//exReduceGroupBy();
+
+function exReduceAddArrays() {
+  const wizards = [
+    {
+      name: "Harry Potter",
+      house: "Gryfindor",
+    },
+    {
+      name: "Cedric Diggory",
+      house: "Hufflepuff",
+    },
+    {
+      name: "Tonks",
+      house: "Hufflepuff",
+    },
+    {
+      name: "Ronald Weasley",
+      house: "Gryfindor",
+    },
+    {
+      name: "Hermione Granger",
+      house: "Gryfindor",
+    },
+  ];
+  const points = {
+    HarryPotter: 500,
+    CedricDiggory: 750,
+    RonaldWeasley: 100,
+    HermioneGranger: 1270,
+  };
+  let wizardsWithPoints = wizards.reduce(function (arr, wizard) {
+    // Получаем значение для объекта points, удалив пробелы из имени //волшебника
+    let key = wizard.name.replace(" ", "");
+
+    // Если у волшебника есть очки, устанавливаем значение,
+    // иначе устанавливаем 0.
+    if (points[key]) {
+      wizard.points = points[key];
+    } else {
+      wizard.points = 0;
+    }
+
+    // Добавляем объект wizard в новый массив.
+    arr.push(wizard);
+
+    // Возвращаем массив.
+    return arr;
+  }, []);
+  console.log(wizardsWithPoints);
+}
+//exReduceAddArrays();
+
+function exReduceTwoObjects(params) {
+  const wizards = [
+    {
+      name: "Harry Potter",
+      house: "Gryfindor",
+    },
+    {
+      name: "Cedric Diggory",
+      house: "Hufflepuff",
+    },
+    {
+      name: "Tonks",
+      house: "Hufflepuff",
+    },
+    {
+      name: "Ronald Weasley",
+      house: "Gryfindor",
+    },
+    {
+      name: "Hermione Granger",
+      house: "Gryfindor",
+    },
+  ];
+  const points = {
+    HarryPotter: 500,
+    CedricDiggory: 750,
+    RonaldWeasley: 100,
+    HermioneGranger: 1270,
+  };
+  let wizardsAsAnObject = wizards.reduce(function (obj, wizard) {
+    // Получаем значение ключа для объекта points, удалив пробелы из имени
+    //волшебника
+    let key = wizard.name.replace(" ", "");
+
+    // Если у волшебника есть очки, устанавливаем значение,
+    // иначе устанавливаем 0.
+    if (points[key]) {
+      wizard.points = points[key];
+    } else {
+      wizard.points = 0;
+    }
+
+    // Удаляем свойство name
+    delete wizard.name;
+
+    // Добавляем значение wizard в новый объект
+    obj[key] = wizard;
+
+    // Возвращаем массив
+    return obj;
+  }, {});
+  console.log(wizardsAsAnObject);
+}
+//exReduceTwoObjects();
 
 function exJson() {
   console.log(
