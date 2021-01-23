@@ -51,7 +51,7 @@ function exObjectSample1() {
 }
 //exObjectSample1();
 
-function exSample2(params) {
+function exObjectSample2() {
   array = [1, 2, 3, 4, 5, 6, , 10, 11, true];
   obj = { name: "Jane", age: 25 };
 
@@ -60,7 +60,7 @@ function exSample2(params) {
   console.log(true in array);
   console.log(25 in obj);
 }
-//exSample2();
+//exObjectSample2();
 
 function exObjectSample3() {
   let c = 10;
@@ -98,6 +98,26 @@ function exObjectWeight(params) {
   console.log(obj.weight);
 }
 //exObjectWeight();
+
+function exIsObjectEmpty() {
+  const isEmptyObject = function (obj) {
+    let prop;
+    for (prop in obj) {
+      if (obj.hasOwnProperty(prop)) return false;
+    }
+    return true;
+  };
+  console.log(isEmptyObject({ name: "Jane" }));
+}
+//exIsObjectEmpty();
+
+function exIsObjectEmpty1() {
+  const isEmptyObject = function (obj) {
+    return Object.keys(obj).length === 0 && obj.constructor === Object;
+  };
+  console.log(isEmptyObject({}));
+}
+//exIsObjectEmpty1();
 
 function exObjectBob() {
   const user = {
@@ -212,7 +232,7 @@ function exObjectAssign() {
 }
 //exObjectAssign();
 
-function exObjectVsArray(params) {
+function exObjectVsArray() {
   let grocery = ["apple"];
   //Prototype of an array is "[]"
   console.log(grocery.__proto__);
@@ -248,7 +268,7 @@ function exInArrayObject(params) {
 function exHoisting(params) {
   function hoist() {
     console.log(message);
-    var message = "Hoisting is all the rage!";
+    let message = "Hoisting is all the rage!";
   }
 
   hoist();
@@ -267,6 +287,186 @@ function exCallAndSpread() {
 //exCallAndSpread();
 
 //-------------this--------------------
+function exThisTrap() {
+  const numbers = {
+    numberA: 5,
+    numberB: 10,
+    sum: function () {
+      console.log(this === numbers); // => true
+      function calculate() {
+        // this is window or undefined in strict mode
+        console.log(this === numbers); // => false
+        return this.numberA + this.numberB;
+      }
+      return calculate();
+    },
+  };
+  console.log(numbers.sum()); // => NaN or throws TypeError in strict mode
+}
+//exThisTrap();
+
+function exThisTrapContinue() {
+  const numbers = {
+    numberA: 5,
+    numberB: 10,
+    sum: function () {
+      console.log(this === numbers); // => true
+      function calculate() {
+        console.log(this === numbers); // =>true
+        return this.numberA + this.numberB;
+      }
+      return calculate.call(this);
+    },
+  };
+  console.log(numbers.sum());
+}
+
+//exThisTrapContinue();
+
+function exThisTrap1() {
+  function Animal(type, legs) {
+    this.type = type;
+    this.legs = legs;
+    this.logInfo = function () {
+      console.log(this === myCat); // => false
+      console.log("The " + this.type + " has " + this.legs + " legs");
+    };
+  }
+  var myCat = new Animal("Cat", 4);
+  // logs "The undefined has undefined legs"
+  // or throws a TypeError, in strict mode
+  setTimeout(myCat.logInfo, 1000);
+}
+//exThisTrap1();
+
+function exThisTrap1Continue() {
+  function Animal(type, legs) {
+    this.type = type;
+    this.legs = legs;
+    this.logInfo = function () {
+      console.log(this === myCat); // => true
+      console.log("The " + this.type + " has " + this.legs + " legs");
+    };
+  }
+  var myCat = new Animal("Cat", 4);
+  // logs "The Cat has 4 legs"
+  setTimeout(myCat.logInfo.bind(myCat), 1000);
+}
+//exThisTrap1Continue();
+
+function exThisTrap2() {
+  function Vehicle(type, wheelsCount) {
+    this.type = type;
+    this.wheelsCount = wheelsCount;
+    return this;
+  }
+  // Function invocation
+  const car = Vehicle("Car", 4);
+  console.log(car.type); // => 'Car'
+  console.log(car.wheelsCount); // => 4
+  console.log(car === global); // => true
+}
+//exThisTrap2();
+
+function exThisTrap2Continue() {
+  function Vehicle(type, wheelsCount) {
+    if (!(this instanceof Vehicle)) {
+      throw Error("Error: Incorrect invocation");
+    }
+    this.type = type;
+    this.wheelsCount = wheelsCount;
+    return this;
+  }
+  // Constructor invocation
+  const car = new Vehicle("Car", 4);
+  console.log(car.type); // => 'Car'
+  console.log(car.wheelsCount); // => 4
+  console.log(car instanceof Vehicle); // => true
+
+  // Function invocation. Generates an error.
+  //const brokenCar = Vehicle("Broken Car", 3);
+}
+//exThisTrap2Continue();
+
+function exTHisTripArrow() {
+  function Period(hours, minutes) {
+    this.hours = hours;
+    this.minutes = minutes;
+  }
+  Period.prototype.format = () => {
+    console.log(this === global); // => true
+    return this.hours + " hours and " + this.minutes + " minutes";
+  };
+  const walkPeriod = new Period(2, 30);
+  console.log(walkPeriod.format());
+}
+//exTHisTripArrow();
+
+function exTHisTripArrowContinue() {
+  function Period(hours, minutes) {
+    this.hours = hours;
+    this.minutes = minutes;
+  }
+  Period.prototype.format = function () {
+    console.log(this === walkPeriod); // => true
+    return this.hours + " hours and " + this.minutes + " minutes";
+  };
+  const walkPeriod = new Period(2, 30);
+  console.log(walkPeriod.format());
+}
+//exTHisTripArrowContinue();
+
+function exThisInsideInnerFunction() {
+  myVar = 100;
+  function SomeFunction() {
+    function WhoIsThis() {
+      var myVar = 200;
+
+      console.log("myVar = " + myVar); // 200
+      console.log("this.myVar = " + this.myVar); // 100
+    }
+    WhoIsThis();
+  }
+  SomeFunction();
+}
+
+//exThisInsideInnerFunction();
+
+function exThisKeyword() {
+  myVar = 100;
+
+  function WhoIsThis() {
+    this.myVar = 200;
+    this.display = function () {
+      var myVar = 300;
+
+      console.log("myVar = " + myVar); // 300
+      console.log("this.myVar = " + this.myVar); // 200
+    };
+  }
+  const obj = new WhoIsThis();
+
+  obj.display();
+}
+//exThisKeyword();
+
+function exThisKeyword1() {
+  myVar = 100;
+
+  const obj = {
+    myVar: 300,
+    whoIsThis: function () {
+      let myVar = 200;
+
+      console.log(myVar); // 200
+      console.log(this.myVar); // 300
+    },
+  };
+
+  obj.whoIsThis();
+}
+
+//exThisKeyword1();
 
 function exThisInFunction() {
   function myFunction() {
@@ -438,3 +638,64 @@ function exSetTimeoutWithThis(params) {
   }, 1000);
 }
 //exSetTimeoutWithThis();
+
+function exObjectProperties() {
+  const user = {};
+  user.name = "Tom";
+  user.age = 26;
+  user.display = function () {
+    console.log(user.name);
+    console.log(user.age);
+  };
+  let hasNameProp = "name" in user;
+  console.log(hasNameProp); // true - свойство name есть в user
+  let hasWeightProp = "weight" in user;
+  console.log(hasWeightProp); // false - в user нет свойства или метода под названием weight
+}
+//exObjectProperties();
+
+function exObjectProperties1() {
+  const user = {};
+  user.name = "Tom";
+  user.age = 26;
+  user.display = function () {
+    console.log(user.name);
+    console.log(user.age);
+  };
+  let hasNameProp = user.name !== undefined;
+  console.log(hasNameProp); // true
+  let hasWeightProp = user.weight !== undefined;
+  console.log(hasWeightProp); // false
+}
+//exObjectProperties1();
+
+function exObjectProperties2() {
+  const user = {};
+  user.name = "Tom";
+  user.age = 26;
+  user.display = function () {
+    console.log(user.name);
+    console.log(user.age);
+  };
+  let hasNameProp = user.hasOwnProperty("name");
+  console.log(hasNameProp); // true
+  let hasDisplayProp = user.hasOwnProperty("display");
+  console.log(hasDisplayProp); // true
+  let hasWeightProp = user.hasOwnProperty("weight");
+  console.log(hasWeightProp); // fals
+}
+//exObjectProperties2();
+
+function exObjectProperties3() {
+  var user = {};
+  user.name = "Tom";
+  user.age = 26;
+  user.display = function () {
+    console.log(user.name);
+    console.log(user.age);
+  };
+  for (var key in user) {
+    console.log(key + " : " + user[key]);
+  }
+}
+//exObjectProperties3();
