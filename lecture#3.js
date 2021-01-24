@@ -699,3 +699,118 @@ function exObjectProperties3() {
   }
 }
 //exObjectProperties3();
+
+//-------------strings-----------------------
+
+function exStrings() {
+  console.log(String.fromCodePoint(70, 108, 97, 118, 105, 111));
+  console.log(
+    String.fromCodePoint(0x46, 0154, parseInt(141, 8), 118, 105, 111, 0x26f5)
+  );
+  let flavio = String("Flavio \u26f5");
+  console.log(flavio);
+  console.log(
+    flavio.charAt(0) +
+      " is \\u" +
+      flavio.charCodeAt(0) +
+      " or \\u" +
+      flavio.charCodeAt(0).toString(16)
+  );
+
+  let elefant = "\u1F004";
+  console.log(elefant.charCodeAt(0).toString(16));
+  console.log(elefant.charCodeAt(1).toString(16));
+}
+//exStrings();
+
+function exStringMethodNormalize() {
+  let china = "\u3197";
+  console.log(china);
+  let symChina = "\u3197".normalize("NFKD");
+  console.log(symChina);
+}
+//exStringMethodNormalize();
+
+function exStringMethodPad() {
+  let string = "String";
+  console.log(string.padEnd(10, "String"));
+  console.log(string.padStart(10, "String"));
+}
+//exStringMethodPad();
+
+function exStringMethodRepeat() {
+  let string = "String";
+  console.log(string.repeat(3));
+  console.log(string);
+}
+//exStringMethodRepeat();
+
+function exStringMethodReplace(params) {
+  console.log("JavaScript".replace("Java", "Type"));
+  console.log("JavaScript".replace(/Java/, "Type"));
+  console.log("JavaScript JavaX".replace(/Java/g, "Type"));
+
+  let str = "JavaScript".replace("Java", (match, index, originalString) => {
+    console.log(match, index, originalString);
+    return "Test";
+  });
+  console.log(str);
+
+  let strReg = "JavaScript".replace(/Java/, (match, index, originalString) => {
+    console.log(match, index, originalString);
+    return "Test";
+  });
+  console.log(strReg);
+
+  let date = "2015-01-02".replace(
+    /(?<year>\d{4})-(?<month>\d{2})-(?<day>\d{2})/,
+    (match, year, month, day, index, originalString) => {
+      console.log(match, year, month, day, index, originalString);
+      return year == 2015;
+    }
+  );
+  console.log(date);
+}
+//exStringMethodReplace();
+
+function exStringMethodTrim(params) {
+  let str = "    String       ";
+  console.log(str.trimEnd() + str.trim() + str.trimStart());
+}
+//exStringMethodTrim();
+
+function exStringValueOf() {
+  let str = new String("String");
+  console.log(typeof str);
+  console.log(str);
+  console.log(str.valueOf() + str.toString());
+}
+//exStringValueOf();
+
+function exStringParse() {
+  console.log(Number.parseInt("10"));
+  console.log(Number.parseInt("10.00"));
+  console.log(Number.parseInt("237,21"));
+  console.log(Number.parseInt("237.21"));
+  console.log(Number.parseInt("12 34 56"));
+  console.log(Number.parseInt(" 36 "));
+  console.log(Number.parseInt("36 is my age"));
+
+  console.log(Number.parseFloat("10"));
+  console.log(Number.parseFloat("10.00"));
+  console.log(Number.parseFloat("237,21"));
+  console.log(Number.parseFloat("237.21"));
+  console.log(Number.parseFloat("12 34 56"));
+  console.log(Number.parseFloat(" 36 "));
+  console.log(Number.parseFloat("36 is my age"));
+  console.log(Number.parseFloat("-10"));
+  console.log(Number.parseFloat("-10.2"));
+
+  console.log(Number.isSafeInteger(Math.pow(2, 53)));
+  console.log(Number.isSafeInteger(Math.pow(2, 53) - 1));
+  console.log(Number.isSafeInteger(Math.pow(2, 53) + 1));
+  console.log(Number.isSafeInteger(-Math.pow(2, 53)));
+  console.log(Number.isSafeInteger(-Math.pow(2, 53) - 1));
+  console.log(Number.isSafeInteger(-Math.pow(2, 53) + 1));
+}
+//exStringParse();
