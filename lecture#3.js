@@ -814,3 +814,161 @@ function exStringParse() {
   console.log(Number.isSafeInteger(-Math.pow(2, 53) + 1));
 }
 //exStringParse();
+
+//---------Date--------------------
+
+function exDate() {
+  const days = [
+    "Воскресенье",
+    "Понедельник",
+    "Вторник",
+    "Среда",
+    "Четверг",
+    "Пятница",
+    "Суббота",
+  ];
+  const months = [
+    "Январь",
+    "Февраль",
+    "Март",
+    "Апрель",
+    "Май",
+    "Июнь",
+    "Июль",
+    "Август",
+    "Сентябрь",
+    "Октябрь",
+    "Ноябрь",
+    "Декабрь",
+  ];
+
+  let myDate = new Date();
+  let fullDate =
+    "Сегодня: " +
+    myDate.getDate() +
+    " " +
+    months[myDate.getMonth()] +
+    " " +
+    myDate.getFullYear() +
+    ", " +
+    days[myDate.getDay()];
+
+  console.log(fullDate);
+}
+//exDate();
+
+function exDateTime(params) {
+  let welcome;
+  let myDate = new Date();
+  let hour = myDate.getHours();
+  let minute = myDate.getMinutes();
+  let second = myDate.getSeconds();
+  if (minute < 10) {
+    minute = "0" + minute;
+  }
+  if (second < 10) {
+    second = "0" + second;
+  }
+  if (hour < 12) {
+    welcome = "Доброе утро";
+  } else if (hour < 17) {
+    welcome = "Добрый день";
+  } else {
+    welcome = "Добрый вечер";
+  }
+  console.log(
+    welcome + ", текущее время: " + hour + ":" + minute + ":" + second
+  );
+}
+//exDateTime();
+
+function exDateSet() {
+  let myDate = new Date();
+  myDate.setDate(25);
+  myDate.setMonth(16);
+  myDate.setYear(2013);
+
+  var fullDate =
+    myDate.getDate() + " " + myDate.getMonth() + " " + myDate.getFullYear();
+  console.log(fullDate);
+}
+//exDateSet();
+
+function exDateUTC() {
+  let myDate = new Date("2021-5-5");
+  console.log(myDate);
+  let myDateLocal = new Date("2021-07-07T20:00");
+  console.log(myDateLocal);
+
+  const date = new Date(2019, 0, 23, 17, 23, 42);
+  console.log(date.toString());
+  console.log(date.toDateString());
+  console.log(date.toLocaleString());
+  console.log(date.toLocaleDateString());
+  console.log(date.toGMTString());
+  console.log(date.toUTCString());
+  console.log(date.toISOString());
+}
+//exDateUTC();
+
+function exDateCompare() {
+  const isSameDay = (a, b) => {
+    return (
+      a.getFullYear() === b.getFullYear() &&
+      a.getMonth() === b.getMonth() &&
+      a.getDate() === b.getDate()
+    );
+  };
+
+  const a = new Date(2019, 0, 26, 10); // 26 Jan 2019, 10am
+  const b = new Date(2019, 0, 26, 12); // 26 Jan 2019, 12pm
+  console.log(isSameDay(a, b)); // true
+}
+//exDateCompare();
+
+function exDateChange() {
+  const today = new Date(2019, 1, 28);
+  const finalDate = new Date(today);
+  finalDate.setDate(today.getDate() + 3);
+  console.log(finalDate);
+}
+//exDateChange();
+
+function exDateChange1() {
+  const today = new Date(2019, 1, 28);
+  // Getting required values
+  const year = today.getFullYear();
+  const month = today.getMonth();
+  const day = today.getDate();
+  // Creating a new Date (with the delta)
+  const finalDate = new Date(year, month, day + 3);
+  console.log(finalDate);
+  console.log(new Date(finalDate.getTime() + 60 * 60 * 24 * 3 * 1000));
+
+  console.log(new Date(2021, 0, 15 + 20));
+}
+//exDateChange1();
+
+function exTimer() {
+  let i = 0;
+  function showTime() {
+    let d = new Date();
+    console.log(d.toLocaleTimeString());
+    i++;
+    if (i === 5) {
+      clearInterval(id);
+    }
+  }
+  let id = setInterval(showTime, 1000);
+}
+//exTimer();
+
+function exTimer1() {
+  function showTime() {
+    let d = new Date();
+    console.log(d.toLocaleTimeString());
+  }
+  let id = setInterval(showTime, 1000);
+  setTimeout(() => clearInterval(id), 6000);
+}
+//exTimer1();
