@@ -314,7 +314,7 @@ function exArrowVsBind(params) {
 
 //---------When you should not use Arrow Functions
 //------object method
-function exArrowNoBoundThis(params) {
+function exArrowNoBoundThis() {
   var cat = {
     lives: 9,
     jumps: () => {
@@ -385,3 +385,107 @@ function readonly(target, property, descriptor) {
 // User.prototype.getFullName = function () {
 //   return "ВЗЛОМАНО!";
 // };
+
+//------func expr & decl-----------------
+
+function exFunction() {
+  function officer() {
+    const given = function () {
+      return "Reginald";
+    };
+    return rank() + " " + given() + " Thistleton";
+
+    function rank() {
+      return "Captain";
+    }
+  }
+
+  console.log(officer());
+}
+//exFunction();
+
+function exFunction1() {
+  function officer() {
+    var given = function () {
+      return "Reginald";
+    };
+
+    return rank() + " " + given() + " " + surname();
+
+    function rank() {
+      return "Captain";
+    }
+    function surname() {
+      return "Thistleton";
+    }
+  }
+  console.log(officer());
+}
+//exFunction1();
+
+function exFunction2() {
+  function officer() {
+    var given = function () {
+        return "Reginald";
+      },
+      surname = function family() {
+        return "Thistleton";
+      };
+
+    return rank() + " " + given() + " " + /*family()*/ surname();
+
+    function rank() {
+      return "Captain";
+    }
+  }
+
+  console.log(officer());
+}
+//exFunction2();
+
+function exFunctionIIFE() {
+  console.log(
+    (function even(n) {
+      return n == 0 ? true : !even(n - 1);
+    })(42)
+  );
+  //even(40);
+}
+//exFunctionIIFE();
+
+function exFunctionClass() {
+  function boardMaker(defaultSize) {
+    const constructor = function Board() {
+      this.height = Board.defaultHeight;
+      this.width = Board.defaultWidth;
+    };
+    constructor.defaultHeight = constructor.defaultWidth = defaultSize;
+    return constructor;
+  }
+  let Chess = boardMaker(8),
+    Go = boardMaker(19),
+    SmallGo = boardMaker(9);
+
+  let board = new Go();
+
+  console.log(board.height);
+}
+//exFunctionClass();
+
+function exFunctionClosure() {
+  function boardMaker(defaultSize) {
+    let defaultHeight = defaultSize,
+      defaultWidth = defaultSize;
+
+    let constructor = function Board() {
+      this.height = defaultHeight;
+      this.width = defaultWidth;
+      // ...
+    };
+
+    return constructor;
+  }
+  let board = boardMaker()(10);
+  console.log(board.height);
+}
+//exFunctionClosure(); ?????
