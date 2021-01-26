@@ -489,3 +489,29 @@ function exFunctionClosure() {
   console.log(board.height);
 }
 //exFunctionClosure(); ?????
+
+//----------recursive------------
+
+function exRecursion() {
+  function sumNumbers(n) {
+    if (n < 10) {
+      return n;
+    } else {
+      return (n % 10) + sumNumbers((n - (n % 10)) / 10);
+    }
+  }
+  console.log(sumNumbers(2234));
+}
+//exRecursion();
+
+function exRecursion1() {
+  function numbers(n) {
+    if (n === 1) {
+      return 1;
+    } else {
+      return numbers(n - 1) + n;
+    }
+  }
+  console.log(numbers(6)); //1+2+3+4+5+6
+}
+//exRecursion1();
