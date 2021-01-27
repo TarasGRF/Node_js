@@ -81,7 +81,7 @@ function exLodashKeys() {
   // В JavaScript появился новый способ, также очень хороший
   console.log(Object.keys(dateEnum));
 
-  // Underscore и Lodash
+  // Lodash
   console.log(_.keys(dateEnum));
 }
 //exLodashKeys();
@@ -101,7 +101,7 @@ function exLodashValues() {
   // Новый вариант Javascript (ES8) предоставляет такой способ
   console.log(Object.values(dateEnum));
 
-  // Underscore и Lodash
+  //  Lodash
   console.log(_.values(dateEnum));
 }
 //exLodashValues();
@@ -249,7 +249,111 @@ function exLodashMemoize() {
   console.log(addMem(30));
 }
 //exLodashMemoize();
+
+function exLodashTimer(params) {
+  function getRandomInteger() {
+    return Math.round(Math.random() * 100);
+  }
+
+  var result = _.times(10, getRandomInteger);
+  console.log(result);
+}
+//exLodashTimer();
+
+function exLodashFind(params) {
+  const users = [
+    { firstName: "John", lastName: "Doe", age: 28, gender: "male" },
+    { firstName: "Jane", lastName: "Doe", age: 5, gender: "female" },
+    { firstName: "Jim", lastName: "Carrey", age: 54, gender: "male" },
+    { firstName: "Kate", lastName: "Winslet", age: 40, gender: "female" },
+  ];
+
+  let user = _.find(users, { lastName: "Doe", gender: "male" });
+
+  let underAgeUser = _.find(users, function (user) {
+    return user.age < 18;
+  });
+  console.log(underAgeUser);
+}
+//exLodashFind();
+
+function exLodashGetSet() {
+  const bar = { foo: { key: "foo" } };
+  _.set(bar, "foo.items[0]", "An item");
+  _.set(bar, "foo.items[1]", "another item");
+  console.log(bar);
+  let name = _.get(bar, "name", "John Doe");
+  console.log(name);
+}
+//exLodashGetSet();
+
+function exLodashDeburr() {
+  console.log(_.deburr("déjà vu"));
+  // -> deja vu
+  console.log(_.deburr("Juan José"));
+  // -> Juan Jose
+}
+//exLodashDeburr();
+
+function exLodashKeyBy() {
+  let posts = [
+    { id: "1abc", title: "First blog post", content: "..." },
+    { id: "2abc", title: "Second blog post", content: "..." },
+    { id: "2abc", title: "just blog post", content: "..." },
+    // more blog posts
+    { id: "34abc", title: "The blog post we want", content: "..." },
+    { id: "2abc", title: "another blog post", content: "..." },
+    // even more blog posts
+  ];
+
+  posts = _.keyBy(posts, "title");
+  console.log(posts);
+  var post = posts["just blog post"];
+  console.log(post);
+}
+//exLodashKeyBy();
+
+function exLodashReduce() {
+  var users = [
+    { name: "John", age: 30 },
+    { name: "Jane", age: 28 },
+    { name: "Bill", age: 65 },
+    { name: "Emily", age: 17 },
+    { name: "Jack", age: 30 },
+  ];
+
+  var reducedUsers = _.reduce(
+    users,
+    function (result, user) {
+      if (user.age >= 18 && user.age <= 59) {
+        (result[user.age] || (result[user.age] = [])).push(user);
+      }
+      return result;
+    },
+    {}
+  );
+  console.log(reducedUsers);
+}
+//exLodashReduce();
+
+function exLodashCloneDeep() {
+  const original = { foo: "bar" };
+  const copy = _.cloneDeep(original);
+  copy.foo = "new value";
+  console.log(original);
+  console.log(copy);
+}
+//exLodashCloneDeep();
+
+function exLodashSortedUniq() {
+  var sortedArray = [1, 1, 2, 3, 3, 3, 5, 8, 8];
+  var result = _.sortedUniq(sortedArray);
+  console.log(result);
+}
+exLodashSortedUniq();
+
 const moment = require("moment");
+
 function exMoment() {
   const from = moment();
   const to = moment(from).add(1, "year").subtract(6, "months");
@@ -259,4 +363,4 @@ function exMoment() {
   const str = `From ${fromStr} to ${toStr}`;
   console.log(str);
 }
-exMoment();
+//exMoment();
