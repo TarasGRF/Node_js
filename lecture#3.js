@@ -87,7 +87,7 @@ function exObjectSample4() {
 }
 //exObjectSample4();
 
-function exObjectWeight(params) {
+function exObjectWeight() {
   const obj = { name: "Jane", age: 25, position: "cap" };
   function changeObject(object) {
     this.object = object;
@@ -556,31 +556,6 @@ function exConstructor() {
 }
 //exConstructor();
 
-function exSymbol(params) {
-  let id = Symbol("id");
-  let person = {
-    name: "Jack",
-    age: 25,
-    [id]: 12,
-  };
-  // using for...in
-  for (let key in person) {
-    console.log(key);
-  }
-}
-//exSymbol();
-
-function exSymbolMethods(paams) {
-  // get symbol by name
-  let sym = Symbol.for("hello");
-  let sym1 = Symbol.for("id");
-
-  // get name by symbol
-  console.log(Symbol.keyFor(sym)); // hello
-  console.log(Symbol.keyFor(sym1)); // id
-}
-//exSymbolMethods();
-
 //------------let vs var-----------------
 function exVar() {
   for (var i = 0; i < 5; i++) {
@@ -972,3 +947,11 @@ function exTimer1() {
   setTimeout(() => clearInterval(id), 6000);
 }
 //exTimer1();
+
+function exIn() {
+  const array = [1, 2, 3, 5, 7, 25, 34, 56, 89];
+  const obj = { id: 34, name: "Jane", age: 25 };
+  console.log(8 in array);
+  console.log("age" in obj);
+}
+exIn();

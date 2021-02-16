@@ -1,5 +1,3 @@
-const { groupBy } = require("lodash");
-
 function exIncrement() {
   const array = [1, 2, 3, 4, 5, 6];
   let i = 0;
